@@ -1,5 +1,16 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { Stop, Tour } from '@/types/tour'
+
+interface TourUpdateData {
+  title: string
+  description: string
+  price: string
+  duration: string
+  location: string
+  maxPeople: string
+  stops?: Stop[]
+}
 
 export async function GET(
   request: Request,
@@ -28,7 +39,7 @@ export async function GET(
     }
 
     return NextResponse.json(tour)
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error details:', error)
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Error fetching tour' },
@@ -43,7 +54,7 @@ export async function PUT(
 ) {
   try {
     const { id } = await params
-    const json = await request.json()
+    const json = await request.json() as TourUpdateData
     
     // First delete all existing stops
     await prisma.stop.deleteMany({
@@ -65,7 +76,7 @@ export async function PUT(
         location: json.location,
         maxPeople: parseInt(json.maxPeople),
         stops: {
-          create: json.stops?.map((stop: any, index: number) => ({
+          create: json.stops?.map((stop: Stop, index: number) => ({
             title: stop.title,
             description: stop.description,
             location: stop.location,
@@ -84,7 +95,7 @@ export async function PUT(
     })
 
     return NextResponse.json(tour)
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error details:', error)
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Error updating tour' },
@@ -106,7 +117,7 @@ export async function DELETE(
     })
 
     return NextResponse.json({ success: true })
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error details:', error)
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Error deleting tour' },
