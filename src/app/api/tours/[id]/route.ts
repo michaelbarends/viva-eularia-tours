@@ -14,10 +14,11 @@ interface TourUpdateData {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context
   try {
-    const { id } = await params
+    const { id } = params
     const tour = await prisma.tour.findUnique({
       where: {
         id: parseInt(id)
@@ -50,10 +51,11 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context
   try {
-    const { id } = await params
+    const { id } = params
     const json = await request.json() as TourUpdateData
     
     // First delete all existing stops
@@ -106,10 +108,11 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { params } = context
   try {
-    const { id } = await params
+    const { id } = params
     await prisma.tour.delete({
       where: {
         id: parseInt(id)
