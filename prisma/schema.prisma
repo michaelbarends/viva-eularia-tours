@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tour {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  duration    Int      // Duration in hours
+  location    String   // Starting location
+  maxPeople   Int
+  stops       Stop[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Stop {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  location    String
+  duration    Int      // Duration in minutes
+  order       Int      // Order in the tour
+  tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
+  tourId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([tourId])
+}
