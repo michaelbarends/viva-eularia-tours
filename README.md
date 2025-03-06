@@ -82,7 +82,7 @@ Na de deployment kun je inloggen met de volgende gegevens:
 - Email: admin@viva-eularia.nl
 - Wachtwoord: admin123
 
-## Technische details
+## Technische detailss
 
 ### Database
 
