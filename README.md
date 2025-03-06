@@ -74,7 +74,7 @@ NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=je-google-maps-api-key
 
 > **Belangrijk**: De `DATABASE_URL` wordt automatisch ingesteld door de configuratie in `vercel.json`, die de `POSTGRES_PRISMA_URL` gebruikt die Vercel automatisch instelt.
 
-### Stap 4: Deploy
+### Stap 4: Deployy
 
 1. Ga terug naar het "Deployments" tabblad
 2. Klik op "Redeploy" om een nieuwe deployment te starten met de nieuwe omgevingsvariabelen
