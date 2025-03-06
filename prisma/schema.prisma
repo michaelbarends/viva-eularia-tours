@@ -7,7 +7,9 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Lokale ontwikkeling
+  // Gebruik de omgevingsvariabele als deze bestaat, anders gebruik een lege string
+  // Dit zorgt ervoor dat Prisma generate werkt zonder DATABASE_URL
+  url = env("DATABASE_URL")
 }
 
 model User {

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "postbuild": "DATABASE_URL=\"$POSTGRES_PRISMA_URL\" prisma migrate deploy && DATABASE_URL=\"$POSTGRES_PRISMA_URL\" prisma db seed",
+    "postbuild": "node -e \"process.env.DATABASE_URL=require('./prisma/prisma.config.js').databaseUrl; require('child_process').execSync('npx prisma migrate deploy && npx prisma db seed', {stdio: 'inherit'});\"",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
