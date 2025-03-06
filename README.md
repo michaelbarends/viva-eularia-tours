@@ -68,12 +68,11 @@ Een applicatie voor het beheren van tours en gebruikers voor Viva Eularia.
 Ga naar "Settings" > "Environment Variables" en voeg de volgende variabelen toe:
 
 ```
-DATABASE_URL=${POSTGRES_PRISMA_URL}
 NEXTAUTH_SECRET=je-geheime-sleutel
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=je-google-maps-api-key
 ```
 
-> **Belangrijk**: De `DATABASE_URL` variabele moet verwijzen naar de `POSTGRES_PRISMA_URL` die Vercel automatisch instelt. Dit zorgt ervoor dat Prisma de juiste database URL gebruikt.
+> **Belangrijk**: De `DATABASE_URL` wordt automatisch ingesteld door de configuratie in `vercel.json`, die de `POSTGRES_PRISMA_URL` gebruikt die Vercel automatisch instelt.
 
 ### Stap 4: Deploy
 
