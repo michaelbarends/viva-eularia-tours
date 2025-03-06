@@ -3,8 +3,5 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "regions": ["arn1"],
-  "env": {
-    "DATABASE_PROVIDER": "postgresql"
-  }
+  "regions": ["arn1"]
 }

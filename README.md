@@ -9,27 +9,30 @@ Een applicatie voor het beheren van tours en gebruikers voor Viva Eularia.
    ```bash
    npm install
    ```
-3. Maak een `.env` bestand aan met de volgende inhoud:
+3. Start de PostgreSQL database met Docker:
+   ```bash
+   docker-compose up -d
    ```
-   DATABASE_PROVIDER="sqlite"
-   DATABASE_URL="file:./dev.db"
+4. Maak een `.env` bestand aan met de volgende inhoud:
+   ```
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/viva_eularia"
    NEXTAUTH_SECRET="je-geheime-sleutel"
    NEXTAUTH_URL="http://localhost:3000"
    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="je-google-maps-api-key"
    ```
-4. Voer de database migraties uit:
+5. Voer de database migraties uit:
    ```bash
    npx prisma migrate dev
    ```
-5. Seed de database:
+6. Seed de database:
    ```bash
    npx prisma db seed
    ```
-6. Start de ontwikkelserver:
+7. Start de ontwikkelserver:
    ```bash
    npm run dev
    ```
-7. Open [http://localhost:3000](http://localhost:3000) in je browser
+8. Open [http://localhost:3000](http://localhost:3000) in je browser
 
 ## Deployen op Vercel
 
@@ -65,7 +68,6 @@ Een applicatie voor het beheren van tours en gebruikers voor Viva Eularia.
 Ga naar "Settings" > "Environment Variables" en voeg de volgende variabelen toe:
 
 ```
-DATABASE_PROVIDER=postgresql
 NEXTAUTH_SECRET=je-geheime-sleutel
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=je-google-maps-api-key
 ```
@@ -86,11 +88,11 @@ Na de deployment kun je inloggen met de volgende gegevens:
 
 ### Database
 
-De applicatie gebruikt:
-- SQLite voor lokale ontwikkeling
-- PostgreSQL voor productie op Vercel
+De applicatie gebruikt PostgreSQL voor zowel lokale ontwikkeling als productie:
+- Lokaal: PostgreSQL via Docker
+- Productie: Vercel Postgres
 
-De database schema is gedefinieerd in `prisma/schema.prisma` en gebruikt omgevingsvariabelen om te bepalen welke database provider moet worden gebruikt.
+De database schema is gedefinieerd in `prisma/schema.prisma`.
 
 ### Authenticatie
 
