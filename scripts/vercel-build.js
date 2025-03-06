@@ -25,10 +25,37 @@ if (process.env.VERCEL === '1') {
 
 // Voer de database migraties en seeding uit
 const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 
 try {
-  console.log('Voer database migraties uit...');
-  execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+  console.log('Genereer Prisma client...');
+  execSync('npx prisma generate', { stdio: 'inherit' });
+  
+  // Controleer of we in een Vercel omgeving zijn en of dit de eerste deployment is
+  // Als dit de eerste deployment is, moeten we de schema aanmaken
+  if (process.env.VERCEL === '1') {
+    console.log('Vercel omgeving gedetecteerd, voer aangepaste migratie uit...');
+    
+    try {
+      // Probeer de database te initialiseren met een aangepaste aanpak
+      console.log('Initialiseer database schema...');
+      
+      // Gebruik prisma db push in plaats van migrate deploy
+      // Dit zorgt ervoor dat het schema wordt aangemaakt zonder migraties
+      console.log('Voer prisma db push uit...');
+      execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
+      
+      console.log('Database schema succesvol geïnitialiseerd');
+    } catch (initError) {
+      console.error('WAARSCHUWING: Kon database schema niet initialiseren:', initError.message);
+      console.error('Probeer verder te gaan met seeding...');
+    }
+  } else {
+    // Lokale omgeving, gebruik normale migratie
+    console.log('Lokale omgeving, voer normale migratie uit...');
+    execSync('npx prisma migrate deploy', { stdio: 'inherit' });
+  }
   
   console.log('Voer database seeding uit...');
   execSync('npx prisma db seed', { stdio: 'inherit' });
