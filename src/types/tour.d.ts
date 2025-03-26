@@ -3,7 +3,8 @@ export interface Stop {
   title: string
   description: string | null
   location: string
-  duration: string
+  startTime: string
+  endTime: string
   order?: number
   tourId?: number
   createdAt?: Date

@@ -32,7 +32,8 @@ export default function TourForm({ initialData }: TourFormProps) {
       title: stop.title,
       description: stop.description || '',
       location: stop.location,
-      duration: stop.duration.toString()
+      startTime: stop.startTime,
+      endTime: stop.endTime
     })) || []
   })
 
@@ -40,7 +41,8 @@ export default function TourForm({ initialData }: TourFormProps) {
     title: '',
     description: '',
     location: '',
-    duration: ''
+    startTime: '',
+    endTime: ''
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,7 +76,8 @@ export default function TourForm({ initialData }: TourFormProps) {
         title: '',
         description: '',
         location: '',
-        duration: ''
+        startTime: '',
+        endTime: ''
       })
 
       // Trigger refresh of tour list
@@ -116,7 +119,8 @@ export default function TourForm({ initialData }: TourFormProps) {
       title: '',
       description: '',
       location: '',
-      duration: ''
+      startTime: '',
+      endTime: ''
     })
   }
 
@@ -224,7 +228,7 @@ export default function TourForm({ initialData }: TourFormProps) {
               <div key={index} className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
                 <div>
                   <p className="font-semibold text-base text-gray-600">{stop.title}</p>
-                  <p className="text-base text-gray-600">{stop.location} - {stop.duration} minuten</p>
+                  <p className="text-base text-gray-600">{stop.location} - {stop.startTime} tot {stop.endTime}</p>
                 </div>
                 <button
                   type="button"
@@ -270,17 +274,29 @@ export default function TourForm({ initialData }: TourFormProps) {
             className={inputClasses}
           />
 
-          <div>
-            <label htmlFor="stopDuration" className="block text-base font-semibold text-gray-900 mb-2">Duur (minuten)</label>
-            <input
-              type="number"
-              id="stopDuration"
-              name="duration"
-              value={newStop.duration}
-              onChange={handleStopChange}
-              min="1"
-              className={inputClasses}
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="startTime" className="block text-base font-semibold text-gray-900 mb-2">Starttijd</label>
+              <input
+                type="time"
+                id="startTime"
+                name="startTime"
+                value={newStop.startTime}
+                onChange={handleStopChange}
+                className={inputClasses}
+              />
+            </div>
+            <div>
+              <label htmlFor="endTime" className="block text-base font-semibold text-gray-900 mb-2">Eindtijd</label>
+              <input
+                type="time"
+                id="endTime"
+                name="endTime"
+                value={newStop.endTime}
+                onChange={handleStopChange}
+                className={inputClasses}
+              />
+            </div>
           </div>
 
           <button

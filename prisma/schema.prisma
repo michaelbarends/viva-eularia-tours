@@ -39,7 +39,8 @@ model Stop {
   title       String
   description String?
   location    String
-  duration    Int      // Duration in minutes
+  startTime   String   // Start time in HH:MM format
+  endTime     String   // End time in HH:MM format
   order       Int      // Order in the tour
   tour        Tour     @relation(fields: [tourId], references: [id], onDelete: Cascade)
   tourId      Int

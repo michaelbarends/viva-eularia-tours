@@ -15,7 +15,8 @@ interface Location {
   title: string
   location: string
   description?: string | null
-  duration?: number
+  startTime?: string
+  endTime?: string
   order?: number
 }
 

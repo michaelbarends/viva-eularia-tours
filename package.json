@@ -14,17 +14,19 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@mapbox/search-js-react": "^1.0.0",
     "@prisma/client": "^6.3.1",
-    "@react-google-maps/api": "^2.20.6",
     "@tailwindcss/forms": "^0.5.10",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^3.0.2",
-    "next": "15.1.6",
+    "mapbox-gl": "^3.10.0",
+    "next": "15.2.3",
     "next-auth": "^4.24.11",
     "node-fetch": "^3.3.2",
     "prisma": "^6.3.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-map-gl": "^8.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

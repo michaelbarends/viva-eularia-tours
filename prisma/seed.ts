@@ -36,21 +36,24 @@ async function main() {
             title: 'Koninklijk Paleis',
             description: 'Bezoek het prachtige Koninklijk Paleis op de Dam, een van de vier paleizen in Nederland die ter beschikking staan van de koning.',
             location: 'Dam, Amsterdam',
-            duration: 30,
+            startTime: '10:00',
+            endTime: '10:30',
             order: 1
           },
           {
             title: 'Oude Kerk',
             description: 'De oudste nog bestaande gebouw van Amsterdam, gesticht rond 1213.',
             location: 'Oudekerksplein, Amsterdam',
-            duration: 25,
+            startTime: '10:45',
+            endTime: '11:10',
             order: 2
           },
           {
             title: 'Begijnhof',
             description: 'Een van de oudste hofjes van Amsterdam, oorspronkelijk gesticht voor de begijnen, een katholieke zusterorde.',
             location: 'Begijnhof, Amsterdam',
-            duration: 20,
+            startTime: '11:25',
+            endTime: '11:45',
             order: 3
           }
         ]
