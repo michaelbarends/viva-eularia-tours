@@ -25,22 +25,59 @@ if (!fs.existsSync(migrationFilePath)) {
   process.exit(1);
 }
 
-// Execute the migration using Prisma's db execute
+// Check if force reset flag is provided
+const forceReset = process.argv.includes('--force-reset');
+
+// Execute the migration
 try {
-  console.log('Running migration to convert duration to time range on production database...');
-  
-  // Execute the SQL directly using Prisma
-  execSync(`npx prisma db execute --file "${migrationFilePath}"`, { 
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      // Make sure we're using the production DATABASE_URL
-      DATABASE_URL: process.env.DATABASE_URL
+  if (forceReset) {
+    console.log('Force reset flag detected. Resetting database and applying schema...');
+    
+    // Use prisma db push with force-reset to reset the database and apply schema
+    execSync('npx prisma db push --force-reset', { 
+      stdio: 'inherit',
+      env: {
+        ...process.env,
+        DATABASE_URL: process.env.DATABASE_URL
+      }
+    });
+    
+    console.log('Database reset and schema applied successfully!');
+    console.log('WARNING: All data has been deleted from the database.');
+  } else {
+    console.log('Running migration to convert duration to time range on production database...');
+    
+    try {
+      // First try to execute the SQL directly using Prisma
+      execSync(`npx prisma db execute --file "${migrationFilePath}"`, { 
+        stdio: 'inherit',
+        env: {
+          ...process.env,
+          DATABASE_URL: process.env.DATABASE_URL
+        }
+      });
+      
+      console.log('Migration completed successfully!');
+      
+      // Apply any other schema changes
+      console.log('Applying any remaining schema changes...');
+      execSync('npx prisma db push --accept-data-loss', { 
+        stdio: 'inherit',
+        env: {
+          ...process.env,
+          DATABASE_URL: process.env.DATABASE_URL
+        }
+      });
+      
+      console.log('Schema changes applied successfully!');
+    } catch (migrationError) {
+      console.error('Migration failed:', migrationError);
+      console.error('\nIf you want to reset the database and lose all data, run:');
+      console.error('DATABASE_URL=your_production_database_url node scripts/apply-production-migration.js --force-reset');
+      process.exit(1);
     }
-  });
-  
-  console.log('Migration completed successfully!');
+  }
 } catch (error) {
-  console.error('Migration failed:', error);
+  console.error('Operation failed:', error);
   process.exit(1);
 }
