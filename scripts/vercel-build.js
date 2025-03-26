@@ -46,6 +46,17 @@ try {
       console.log('Voer prisma db push uit...');
       execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
       
+      // Voer ook de aangepaste migratie uit voor duration naar time range
+      console.log('Voer aangepaste migratie uit voor duration naar time range...');
+      const migrationFilePath = path.join(__dirname, '../prisma/migrations/20250310_convert_duration_to_time_range/migration.sql');
+      if (fs.existsSync(migrationFilePath)) {
+        console.log('Migratie bestand gevonden, voer uit...');
+        execSync(`npx prisma db execute --file "${migrationFilePath}"`, { stdio: 'inherit' });
+        console.log('Aangepaste migratie succesvol uitgevoerd');
+      } else {
+        console.log('Migratie bestand niet gevonden, sla over');
+      }
+      
       console.log('Database schema succesvol geïnitialiseerd');
     } catch (initError) {
       console.error('WAARSCHUWING: Kon database schema niet initialiseren:', initError.message);
