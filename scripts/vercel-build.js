@@ -41,31 +41,9 @@ try {
       // Probeer de database te initialiseren met een aangepaste aanpak
       console.log('Initialiseer database schema...');
       
-      // Voer eerst de aangepaste migratie uit voor duration naar time range
-      // Dit voegt de kolommen toe als nullable, zet default waarden, en maakt ze dan non-nullable
-      console.log('Voer aangepaste migratie uit voor duration naar time range...');
-      const migrationFilePath = path.join(__dirname, '../prisma/migrations/20250310_convert_duration_to_time_range/migration.sql');
-      if (fs.existsSync(migrationFilePath)) {
-        console.log('Migratie bestand gevonden, voer uit...');
-        try {
-          execSync(`npx prisma db execute --file "${migrationFilePath}"`, { stdio: 'inherit' });
-          console.log('Aangepaste migratie succesvol uitgevoerd');
-        } catch (migrationError) {
-          console.error('WAARSCHUWING: Kon aangepaste migratie niet uitvoeren:', migrationError.message);
-          console.log('Probeer database te resetten en opnieuw op te bouwen...');
-          
-          // Als de migratie faalt, gebruik --force-reset om de database te resetten
-          console.log('Voer prisma db push uit met --force-reset...');
-          execSync('npx prisma db push --force-reset', { stdio: 'inherit' });
-          console.log('Database succesvol gereset en schema toegepast');
-          
-          // Na reset hoeven we de migratie niet meer uit te voeren
-          console.log('Database is gereset, sla migratie over');
-          return;
-        }
-      } else {
-        console.log('Migratie bestand niet gevonden, sla over');
-      }
+      // De migratie voor duration naar time range is niet meer nodig
+      // De kolommen startTime en endTime bestaan al in de database
+      console.log('Sla migratie voor duration naar time range over (kolommen bestaan al)');
       
       // Gebruik prisma db push om eventuele andere schema wijzigingen toe te passen
       console.log('Voer prisma db push uit...');

@@ -42,15 +42,6 @@ const fs = require('fs');
 
 console.log('Running database fix on Vercel environment...');
 
-// Path to the migration SQL file
-const migrationFilePath = path.join(__dirname, '${migrationFilePath}');
-
-// Check if migration file exists
-if (!fs.existsSync(migrationFilePath)) {
-  console.error(\`ERROR: Migration file not found at \${migrationFilePath}\`);
-  process.exit(1);
-}
-
 ${forceReset ? `
 // Force reset the database and apply schema
 console.log('Force reset flag detected. Resetting database and applying schema...');
@@ -58,21 +49,13 @@ execSync('npx prisma db push --force-reset', { stdio: 'inherit' });
 console.log('Database reset and schema applied successfully!');
 console.log('WARNING: All data has been deleted from the database.');
 ` : `
-// Try to run the migration
-try {
-  console.log('Running migration to convert duration to time range...');
-  execSync(\`npx prisma db execute --file "\${migrationFilePath}"\`, { stdio: 'inherit' });
-  console.log('Migration completed successfully!');
-  
-  // Apply any other schema changes
-  console.log('Applying any remaining schema changes...');
-  execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
-  console.log('Schema changes applied successfully!');
-} catch (error) {
-  console.error('Migration failed:', error.message);
-  console.error('If you want to reset the database and lose all data, run this script with --force-reset');
-  process.exit(1);
-}
+// Skip the migration since the columns already exist
+console.log('Skipping migration for duration to time range (columns already exist)');
+
+// Apply any other schema changes
+console.log('Applying any remaining schema changes...');
+execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
+console.log('Schema changes applied successfully!');
 `}
 
 console.log('Database fix completed successfully!');
