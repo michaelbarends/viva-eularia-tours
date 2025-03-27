@@ -67,76 +67,41 @@ export default async function PublicTourPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
       <header className="bg-background border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-center items-center">
             <img src="/viva-eularia-logo.svg" alt="Viva Eularia" className="h-8" />
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <TourMapWrapper 
+        startLocation={tour.location} 
+        stops={tour.stops.map(stop => ({ 
+          title: stop.title, 
+          location: stop.location,
+          description: stop.description,
+          startTime: stop.startTime,
+          endTime: stop.endTime
+        }))} 
+      />  
+
+      <footer className="bg-background px-4 shadow-lg rounded-lg absolute bottom-0 sm:bottom-6 margin-0 auto sm:w-9/12 sm:right-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         
-        <div className="mt-8 bg-white shadow overflow-hidden rounded-lg">
-          <div className="px-4 py-5 sm:p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Route</h2>
-            <TourMapWrapper 
-              startLocation={tour.location} 
-              stops={tour.stops.map(stop => ({ 
-                title: stop.title, 
-                location: stop.location,
-                description: stop.description,
-                startTime: stop.startTime,
-                endTime: stop.endTime
-              }))} 
-            />
-          </div>
-        </div>
-
-        {tour.stops.length > 0 && (
-          <div className="mt-8 bg-white shadow overflow-hidden rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-900">Programma</h2>
-                <StopsModal stops={tour.stops} />
-              </div>
-              <p className="mt-4 text-gray-500">Klik op de knop om het volledige programma te bekijken.</p>
+          <div className="flex items-center justify-between h-16">
+            <nav className="flex gap-4">
+              <DescriptionModal description={tour.description} />
+              <StopsModal stops={tour.stops} />
+              <ContactModal tourTitle={tour.title} />
+            </nav>
+            <div className="hidden lg:flex">
+              <p className="text-sm text-gray-500">© {new Date().getFullYear()} Viva Eularia | <a href="http://vivaeularia.com/" target="_blank" className="text-sm text-primary hover:text-primary/80">www.vivaeularia.com</a></p>
             </div>
           </div>
-        )}
-
-      </main>
-
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-sm text-gray-500">© {new Date().getFullYear()} Viva Eularia</p>
-            </div>
-            <div>
-              <a href="http://vivaeularia.com/" target="_blank" className="text-sm text-primary hover:text-primary/80">
-                www.vivaeularia.com
-              </a>
-            </div>
-          </div>
-        </div>
+      
       </footer>
-
-      <div className="bg-background border-b border-gray-200">
-          <div className="max-w-6xl mx-auto px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center gap-8">
-                <nav className="flex gap-4">
-                <DescriptionModal description={tour.description} />
-                  <StopsModal stops={tour.stops} />
-                  <ContactModal tourTitle={tour.title} />
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-          
-    </div>
+    
+    </>
   )
 }

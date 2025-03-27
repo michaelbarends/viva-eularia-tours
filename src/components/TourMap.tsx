@@ -49,7 +49,7 @@ export default function TourMap({ startLocation, stops }: TourMapProps) {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [defaultCenter.lng, defaultCenter.lat],
-      zoom: 12
+      zoom: 12,
     })
     
     // Add navigation controls
@@ -304,7 +304,7 @@ export default function TourMap({ startLocation, stops }: TourMapProps) {
 
   return (
     <>
-      <div ref={mapContainer} className="rounded-lg overflow-hidden h-[400px]" />
+      <div ref={mapContainer} className="overflow-hidden h-screen" />
 
       {/* Location Modal */}
       {showModal && selectedLocation && (

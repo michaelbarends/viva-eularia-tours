@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Modal from './Modal'
+import { DynamicIcon } from 'lucide-react/dynamic';
 
 interface BookingModalProps {
   tourTitle: string
@@ -16,7 +17,8 @@ export default function BookingModal({ tourTitle }: BookingModalProps) {
         onClick={() => setIsOpen(true)}
         className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
       >
-        Contact opnemen
+        <span className="hidden sm:flex">Contact opnemen</span>
+        <DynamicIcon className="block sm:hidden" name="circle-user-round" color="white" size={25} />
       </button>
 
       <Modal
